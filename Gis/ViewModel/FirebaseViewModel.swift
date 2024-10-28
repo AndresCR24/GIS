@@ -22,12 +22,12 @@ class FirebaseViewModel: ObservableObject {
     
     @Published var nombreElectrodomestico: String = ""
     @Published var potenciaElectrodomestico: String = ""
-
+    
     init() {
-            // Cargar el estado de sesión desde UserDefaults
-            self.show = UserDefaults.standard.bool(forKey: "sesion")
-            print("Estado de sesión cargado: \(self.show)")
-        }
+        // Cargar el estado de sesión desde UserDefaults
+        self.show = UserDefaults.standard.bool(forKey: "sesion")
+        print("Estado de sesión cargado: \(self.show)")
+    }
     
     func sendData(item: FirebaseModel) {
         
@@ -213,128 +213,286 @@ class FirebaseViewModel: ObservableObject {
     }
     // Inside your FirebaseViewModel
     
-//    func saveElectrodomestico(electrodomestico: ElectrodomesticoModel, portada: Data, completion: @escaping (_ done: Bool) -> Void) {
-//        
-//        let storage = Storage.storage().reference()
-//        let nombrePortada = UUID().uuidString // Usa UUID().uuidString para que sea una cadena
-//        let directorio = storage.child("imagenes/\(nombrePortada)")
-//        let metaData = StorageMetadata()
-//        
-//        metaData.contentType = "image/png"
-//        directorio.putData(portada, metadata: metaData) { data, error in
-//            if error == nil {
-//                print("Guardo la imagen")
-//                // Guardar Texto
-//                let db = Firestore.firestore()
-//                let id = UUID().uuidString
-//                
-//                guard let idUser = Auth.auth().currentUser?.uid else { return }
-//                guard let email = Auth.auth().currentUser?.email else { return }
-//                
-//                // Utiliza las propiedades del modelo
-//                let campos: [String: Any] = [
-//                    "nombre": electrodomestico.nombre,
-//                    "potencia": electrodomestico.potencia,
-//                    "portada": String(describing: directorio),
-//                    "idUser": idUser,
-//                    "email": email
-//                ]
-//                
-//                db.collection("Electrodomesticos").document(id).setData(campos) { error in
-//                    if let error = error?.localizedDescription {
-//                        print("Error al guardar en Firestore: \(error)")
-//                    } else {
-//                        print("Guardo todo")
-//                        completion(true)
-//                    }
-//                }
-//                // Fin de guardar texto
-//            } else {
-//                if let error = error?.localizedDescription {
-//                    print("Fallo al subir la imagen en el storage: \(error)")
-//                } else {
-//                    print("Fallo la app")
-//                }
-//            }
-//        }
-//    }
+    //    func saveElectrodomestico(electrodomestico: ElectrodomesticoModel, portada: Data, completion: @escaping (_ done: Bool) -> Void) {
+    //
+    //        let storage = Storage.storage().reference()
+    //        let nombrePortada = UUID().uuidString // Usa UUID().uuidString para que sea una cadena
+    //        let directorio = storage.child("imagenes/\(nombrePortada)")
+    //        let metaData = StorageMetadata()
+    //
+    //        metaData.contentType = "image/png"
+    //        directorio.putData(portada, metadata: metaData) { data, error in
+    //            if error == nil {
+    //                print("Guardo la imagen")
+    //                // Guardar Texto
+    //                let db = Firestore.firestore()
+    //                let id = UUID().uuidString
+    //
+    //                guard let idUser = Auth.auth().currentUser?.uid else { return }
+    //                guard let email = Auth.auth().currentUser?.email else { return }
+    //
+    //                // Utiliza las propiedades del modelo
+    //                let campos: [String: Any] = [
+    //                    "nombre": electrodomestico.nombre,
+    //                    "potencia": electrodomestico.potencia,
+    //                    "portada": String(describing: directorio),
+    //                    "idUser": idUser,
+    //                    "email": email
+    //                ]
+    //
+    //                db.collection("Electrodomesticos").document(id).setData(campos) { error in
+    //                    if let error = error?.localizedDescription {
+    //                        print("Error al guardar en Firestore: \(error)")
+    //                    } else {
+    //                        print("Guardo todo")
+    //                        completion(true)
+    //                    }
+    //                }
+    //                // Fin de guardar texto
+    //            } else {
+    //                if let error = error?.localizedDescription {
+    //                    print("Fallo al subir la imagen en el storage: \(error)")
+    //                } else {
+    //                    print("Fallo la app")
+    //                }
+    //            }
+    //        }
+    //    }
     
-//    func saveElectrodomestico(nombre: String, potencia: String, casa: String, completion: @escaping(_ done: Bool) -> Void) {
+    //    func saveElectrodomestico(nombre: String, potencia: String, casa: String, completion: @escaping(_ done: Bool) -> Void) {
+    //        let db = Firestore.firestore()
+    //        let id = UUID().uuidString
+    //
+    //        guard let idUser = Auth.auth().currentUser?.uid else { return }
+    //
+    //        // Usar los parámetros nombre y potencia
+    //        let campos: [String: Any] = ["nombreElectrodomestico": nombre, "potenciaElectrodomestico": potencia, "idUser": idUser]
+    //
+    //        db.collection(casa).document(id).setData(campos) { error in
+    //            if let error = error?.localizedDescription {
+    //                print("Error al guardar en firestore \(error)")
+    //            } else {
+    //                print("Guardado en Firestore")
+    //                completion(true)
+    //            }
+    //        }
+    //    }
+    
+    //    func saveElectrodomestico(nombre: String, potencia: String, horas: Int, minutos: Int, completion: @escaping(_ done: Bool) -> Void) {
+    //        let db = Firestore.firestore()
+    //        let id = UUID().uuidString
+    //
+    //        guard let idUser = Auth.auth().currentUser?.uid else {
+    //            print("Error: Usuario no autenticado")
+    //            completion(false)
+    //            return
+    //        }
+    //
+    //        // Crear el diccionario de datos
+//            let campos: [String: Any] = [
+//                "nombreElectrodomestico": nombre,
+//                "potenciaElectrodomestico": potencia,
+//                "horas": horas,
+//                "minutos": minutos
+//            ]
+    //
+    //        // Guardar el electrodoméstico en la subcolección de electrodomésticos del usuario
+    //        db.collection("users").document(idUser).collection("electrodomesticos").document(id).setData(campos) { error in
+    //            if let error = error {
+    //                print("Error al guardar en Firestore: \(error.localizedDescription)")
+    //                completion(false)
+    //            } else {
+    //                print("Guardado en Firestore")
+    //                completion(true)
+    //            }
+    //        }
+    //    }
+    //
+    //    func getElectrodomestico() {
+    //        let db = Firestore.firestore()
+    //
+    //        // Asegúrate de que el usuario esté autenticado
+    //        guard let idUser = Auth.auth().currentUser?.uid else {
+    //            print("Error: Usuario no autenticado")
+    //            return
+    //        }
+    //
+    //        // Acceder a la subcolección de electrodomésticos del usuario
+    //        db.collection("users").document(idUser).collection("electrodomesticos").addSnapshotListener { querySnapshot, error in
+    //            if let error = error {
+    //                print("Error al mostrar datos: \(error.localizedDescription)")
+    //            } else {
+    //                self.datos.removeAll() // Limpiar datos previos
+    //                for document in querySnapshot!.documents {
+    //                    let valor = document.data()
+    //                    let id = document.documentID
+    //                    let nombreElectrodomestico = valor["nombreElectrodomestico"] as? String ?? "sin nombre"
+    //                    let potenciaElectrodomestico = valor["potenciaElectrodomestico"] as? String ?? "sin potencia"
+    //                    let horas = valor["horas"] as? Int ?? 0
+    //                    let minutos = valor["minutos"] as? Int ?? 0
+    //
+    //                    DispatchQueue.main.async {
+    //                        // Crear un nuevo objeto ElectrodomesticoModel
+    //                        let registro2 = ElectrodomesticoModel(id: id, nombre: nombreElectrodomestico, potencia: potenciaElectrodomestico, horas: horas, minutos: minutos)
+    //                        self.datos.append(registro2)
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    }
+    //
+    //
+    //
+    //
+    ////    func deleteElectrodomestico(id: String) {
+    ////        print("Eliminando electrodoméstico con ID: \(id)") // Depuración
+    ////        let db = Firestore.firestore()
+    ////        db.collection("Electrodomesticos").document(id).delete() { error in
+    ////            if let error = error {
+    ////                print("Error al eliminar electrodoméstico: \(error.localizedDescription)")
+    ////            } else {
+    ////                print("Electrodoméstico eliminado con éxito")
+    ////                // Actualizar la lista local después de eliminar
+    ////                self.datos.removeAll { $0.id == id }
+    ////            }
+    ////        }
+    ////    }
+    ////
+
+    //
+    //
+    //}
+    //Empieza de nuevo el FirebaseViewModel para electrodomestico
+    
+//    func deleteElectrodomestico(electrodomestico: FirebaseModel) {
 //        let db = Firestore.firestore()
-//        let id = UUID().uuidString
-//        
-//        guard let idUser = Auth.auth().currentUser?.uid else { return }
-//        
-//        // Usar los parámetros nombre y potencia
-//        let campos: [String: Any] = ["nombreElectrodomestico": nombre, "potenciaElectrodomestico": potencia, "idUser": idUser]
-//        
-//        db.collection(casa).document(id).setData(campos) { error in
-//            if let error = error?.localizedDescription {
-//                print("Error al guardar en firestore \(error)")
+//
+//        // Obtener el ID del usuario autenticado
+//        guard let idUser = Auth.auth().currentUser?.uid else {
+//            print("Error: Usuario no autenticado")
+//            return
+//        }
+//
+//        // Eliminar de Firestore
+//        let id = electrodomestico.id
+//        db.collection("users").document(idUser).collection("electrodomesticos").document(id).delete { error in
+//            if let error = error {
+//                print("Error al eliminar el documento: \(error)")
 //            } else {
-//                print("Guardado en Firestore")
-//                completion(true)
+//                print("Documento eliminado exitosamente.")
+//                // Opcional: actualizar el array de datos
+//                self.datosElectrodomesticos.removeAll { $0.id == id }
 //            }
 //        }
 //    }
-    
-    func saveElectrodomestico(nombre: String, potencia: String, completion: @escaping(_ done: Bool) -> Void) {
-        let db = Firestore.firestore()
-        let id = UUID().uuidString
-
-        guard let idUser = Auth.auth().currentUser?.uid else {
-            print("Error: Usuario no autenticado")
-            completion(false)
-            return
+//
+    func deleteElectrodomestico(electrodomestico: ElectrodomesticoModel) {
+            guard let idUser = Auth.auth().currentUser?.uid else { return }
+            let db = Firestore.firestore()
+            
+            db.collection("users").document(idUser).collection("electrodomesticos").document(electrodomestico.id).delete { error in
+                if let error = error {
+                    print("Error al eliminar el electrodoméstico: \(error.localizedDescription)")
+                } else {
+                    print("Electrodoméstico eliminado")
+                    // Opcionalmente, podrías también eliminarlo de datosElectrodomesticos si es necesario
+                    self.datosElectrodomesticos.removeAll(where: { $0.id == electrodomestico.id })
+                }
+            }
         }
-
-        // Crear el diccionario de datos
+    
+    func saveElectrodomestico(nombre: String, potencia: String, horas: Int, minutos: Int, completion: @escaping(_ done: Bool) -> Void){
+        let db = Firestore.firestore()
+        
+        guard let idUser = Auth.auth().currentUser?.uid else { return }
+        
+        // Usar los datos del electrodoméstico
         let campos: [String: Any] = [
             "nombreElectrodomestico": nombre,
-            "potenciaElectrodomestico": potencia
+            "potenciaElectrodomestico": potencia,
+            "horas": horas,
+            "minutos": minutos
         ]
         
-        // Guardar el electrodoméstico en la subcolección de electrodomésticos del usuario
+        // Generar un ID único para cada electrodoméstico
+        let id = UUID().uuidString
+        
+        // Guardar los datos del electrodoméstico en la subcolección de electrodomésticos
         db.collection("users").document(idUser).collection("electrodomesticos").document(id).setData(campos) { error in
-            if let error = error {
-                print("Error al guardar en Firestore: \(error.localizedDescription)")
+            if let error = error?.localizedDescription {
+                print("Error al guardar en Firestore: \(error)")
                 completion(false)
             } else {
-                print("Guardado en Firestore")
+                print("Guardo todo")
                 completion(true)
             }
         }
     }
-    func getElectrodomestico() {
+    
+//    func getElectrodomesticos() {
+//        let db = Firestore.firestore()
+//        guard let idUser = Auth.auth().currentUser?.uid else { return }
+//        
+//        db.collection("users").document(idUser).collection("electrodomesticos").addSnapshotListener { querySnapshot, error in
+//            if let error = error {
+//                print("Error al mostrar datos: \(error.localizedDescription)")
+//            } else {
+//                self.datosElectrodomesticos.removeAll()
+//                for document in querySnapshot!.documents {
+//                    let valor = document.data()
+//                    let id = document.documentID // Asegúrate de que este sea único
+//                    
+//                    let nombre = valor["nombreElectrodomestico"] as? String ?? "sin nombre"
+//                    let potencia = valor["potenciaElectrodomestico"] as? String ?? "sin potencia"
+//                    let horas = valor["horas"] as? Int ?? 0
+//                    let minutos = valor["minutos"] as? Int ?? 0
+//                    
+//                    // Crear un ElectrodomesticoModel único
+//                    let electrodomestico = ElectrodomesticoModel(id: id, nombre: nombre, potencia: potencia, horas: horas, minutos: minutos)
+//                    
+//                    // Agregar al array
+//                    self.datosElectrodomesticos.append(electrodomestico)
+//                }
+//            }
+//        }
+//    }
+    func getElectrodomesticos() {
         let db = Firestore.firestore()
         
-        // Asegúrate de que el usuario esté autenticado
-        guard let idUser = Auth.auth().currentUser?.uid else {
-            print("Error: Usuario no autenticado")
-            return
-        }
+        guard let idUser = Auth.auth().currentUser?.uid else { return }
         
-        // Acceder a la subcolección de electrodomésticos del usuario
         db.collection("users").document(idUser).collection("electrodomesticos").addSnapshotListener { querySnapshot, error in
             if let error = error {
                 print("Error al mostrar datos: \(error.localizedDescription)")
-            } else {
-                self.datos.removeAll() // Limpiar datos previos
-                for document in querySnapshot!.documents {
-                    let valor = document.data()
-                    let id = document.documentID
-                    let nombreElectrodomestico = valor["nombreElectrodomestico"] as? String ?? "sin nombre"
-                    let potenciaElectrodomestico = valor["potenciaElectrodomestico"] as? String ?? "sin potencia"
-                    
-                    DispatchQueue.main.async {
-                        // Crear un nuevo objeto FirebaseModel o la estructura que estés usando para representar los electrodomésticos
-                        let registro = FirebaseModel(id: id, titulo: nombreElectrodomestico, descripcion: potenciaElectrodomestico, portada: "") // Asumiendo que no hay portada
-                        self.datos.append(registro)
-                    }
+                return
+            }
+            
+            self.datosElectrodomesticos.removeAll()
+            
+            for document in querySnapshot!.documents {
+                let valor = document.data()
+                let id = document.documentID
+                
+                let nombre = valor["nombreElectrodomestico"] as? String ?? "sin nombre"
+                let potenciaString = valor["potenciaElectrodomestico"] as? String ?? "0" // Valor por defecto
+                let potencia = Double(potenciaString) ?? 0.0 // Convierte a Double, si no puede, se establece a 0.0
+                let horas = valor["horas"] as? Int ?? 0
+                let minutos = valor["minutos"] as? Int ?? 0
+                
+                DispatchQueue.main.async {
+                    let electrodomestico = ElectrodomesticoModel(id: id, nombre: nombre, potencia: potencia, horas: horas, minutos: minutos)
+                    self.datosElectrodomesticos.append(electrodomestico)
                 }
             }
         }
+        
     }
 
 
+}
+extension Array where Element: Hashable {
+    func unique() -> [Element] {
+        var seen = Set<Element>()
+        return filter { seen.insert($0).inserted }
+    }
 }
