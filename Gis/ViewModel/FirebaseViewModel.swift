@@ -305,5 +305,36 @@ class FirebaseViewModel: ObservableObject {
             }
         }
     }
+    func getElectrodomestico() {
+        let db = Firestore.firestore()
+        
+        // Asegúrate de que el usuario esté autenticado
+        guard let idUser = Auth.auth().currentUser?.uid else {
+            print("Error: Usuario no autenticado")
+            return
+        }
+        
+        // Acceder a la subcolección de electrodomésticos del usuario
+        db.collection("users").document(idUser).collection("electrodomesticos").addSnapshotListener { querySnapshot, error in
+            if let error = error {
+                print("Error al mostrar datos: \(error.localizedDescription)")
+            } else {
+                self.datos.removeAll() // Limpiar datos previos
+                for document in querySnapshot!.documents {
+                    let valor = document.data()
+                    let id = document.documentID
+                    let nombreElectrodomestico = valor["nombreElectrodomestico"] as? String ?? "sin nombre"
+                    let potenciaElectrodomestico = valor["potenciaElectrodomestico"] as? String ?? "sin potencia"
+                    
+                    DispatchQueue.main.async {
+                        // Crear un nuevo objeto FirebaseModel o la estructura que estés usando para representar los electrodomésticos
+                        let registro = FirebaseModel(id: id, titulo: nombreElectrodomestico, descripcion: potenciaElectrodomestico, portada: "") // Asumiendo que no hay portada
+                        self.datos.append(registro)
+                    }
+                }
+            }
+        }
+    }
+
 
 }
