@@ -90,7 +90,7 @@ struct Login: View {
                                 if done {
                                     UserDefaults.standard.set(true, forKey: "sesion")
                                     print("seccion guardada en userDefaults")
-                                    loginShow.show.toggle()
+                                    loginShow.show = true
                                 }
                             }
                         }) {

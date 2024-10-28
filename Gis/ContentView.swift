@@ -12,23 +12,25 @@ struct ContentView: View {
     @EnvironmentObject var loginShow: FirebaseViewModel
     
     var body: some View {
+        
+
         return Group {
             if loginShow.show {
                 Home()
                     .ignoresSafeArea(.all)
-                //                    .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
+//                                    .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
             }
-//            else {
-//                Login()
-//                //                    .preferredColorScheme(.light)
+            else {
+                Login()
+                //                    .preferredColorScheme(.light)
+            }
+        }
+//        .onAppear() {
+//            if (UserDefaults.standard.object(forKey: "sesion")) != nil {
+//                loginShow.show = true
 //            }
-        }
-        .onAppear() {
-            if (UserDefaults.standard.object(forKey: "sesion")) != nil {
-                loginShow.show = true
-            }
-            
-        }
+//            
+//        }
         
     }
 }

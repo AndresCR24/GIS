@@ -17,6 +17,17 @@ class FirebaseViewModel: ObservableObject {
     @Published var datos = [FirebaseModel]()
     @Published var itemUpdate: FirebaseModel!
     @Published var showEditar = false
+    @Published var datosElectrodomesticos = [ElectrodomesticoModel]()
+    
+    
+    @Published var nombreElectrodomestico: String = ""
+    @Published var potenciaElectrodomestico: String = ""
+
+    init() {
+            // Cargar el estado de sesión desde UserDefaults
+            self.show = UserDefaults.standard.bool(forKey: "sesion")
+            print("Estado de sesión cargado: \(self.show)")
+        }
     
     func sendData(item: FirebaseModel) {
         
@@ -30,6 +41,7 @@ class FirebaseViewModel: ObservableObject {
             if user != nil {
                 print("Entro")
                 completion(true)
+                UserDefaults.standard.set(true, forKey: "sesion")
             } else {
                 if let error = error?.localizedDescription{
                     print("Error en firebase \(error)")
@@ -57,11 +69,11 @@ class FirebaseViewModel: ObservableObject {
                 // Guardar Texto
                 let db = Firestore.firestore()
                 let id = UUID().uuidString
-        
+                
                 guard let idUser = Auth.auth().currentUser?.uid else {return}
                 guard let email = Auth.auth().currentUser?.email else {return}
                 let campos: [String: Any] = ["titulo": titulo, "descripcion": descripcion, "portada": String(describing: directorio), "idUser": idUser, "email": email]
-        
+                
                 db.collection(plataforma).document(id).setData(campos) {error in
                     if let error = error?.localizedDescription {
                         print("Error al guardar en firestore \(error)")
@@ -120,7 +132,7 @@ class FirebaseViewModel: ObservableObject {
                         let registros = FirebaseModel(id: id, titulo: titulo, descripcion: descripcion, portada: portada)
                         self.datos.append(registros)
                     }
-
+                    
                 }
             }
         }
@@ -159,7 +171,7 @@ class FirebaseViewModel: ObservableObject {
     //Editar con imagen
     func editWithImage(titulo: String, descripcion: String, plataforma: String, id: String, index: FirebaseModel, portada: Data,completion: @escaping(_ done: Bool) -> Void) {
         
-      //Eliminar imagen
+        //Eliminar imagen
         let imagen = index.portada
         let borrarImagen = Storage.storage().reference(forURL: imagen)
         
@@ -199,4 +211,99 @@ class FirebaseViewModel: ObservableObject {
             }
         }
     }
+    // Inside your FirebaseViewModel
+    
+//    func saveElectrodomestico(electrodomestico: ElectrodomesticoModel, portada: Data, completion: @escaping (_ done: Bool) -> Void) {
+//        
+//        let storage = Storage.storage().reference()
+//        let nombrePortada = UUID().uuidString // Usa UUID().uuidString para que sea una cadena
+//        let directorio = storage.child("imagenes/\(nombrePortada)")
+//        let metaData = StorageMetadata()
+//        
+//        metaData.contentType = "image/png"
+//        directorio.putData(portada, metadata: metaData) { data, error in
+//            if error == nil {
+//                print("Guardo la imagen")
+//                // Guardar Texto
+//                let db = Firestore.firestore()
+//                let id = UUID().uuidString
+//                
+//                guard let idUser = Auth.auth().currentUser?.uid else { return }
+//                guard let email = Auth.auth().currentUser?.email else { return }
+//                
+//                // Utiliza las propiedades del modelo
+//                let campos: [String: Any] = [
+//                    "nombre": electrodomestico.nombre,
+//                    "potencia": electrodomestico.potencia,
+//                    "portada": String(describing: directorio),
+//                    "idUser": idUser,
+//                    "email": email
+//                ]
+//                
+//                db.collection("Electrodomesticos").document(id).setData(campos) { error in
+//                    if let error = error?.localizedDescription {
+//                        print("Error al guardar en Firestore: \(error)")
+//                    } else {
+//                        print("Guardo todo")
+//                        completion(true)
+//                    }
+//                }
+//                // Fin de guardar texto
+//            } else {
+//                if let error = error?.localizedDescription {
+//                    print("Fallo al subir la imagen en el storage: \(error)")
+//                } else {
+//                    print("Fallo la app")
+//                }
+//            }
+//        }
+//    }
+    
+//    func saveElectrodomestico(nombre: String, potencia: String, casa: String, completion: @escaping(_ done: Bool) -> Void) {
+//        let db = Firestore.firestore()
+//        let id = UUID().uuidString
+//        
+//        guard let idUser = Auth.auth().currentUser?.uid else { return }
+//        
+//        // Usar los parámetros nombre y potencia
+//        let campos: [String: Any] = ["nombreElectrodomestico": nombre, "potenciaElectrodomestico": potencia, "idUser": idUser]
+//        
+//        db.collection(casa).document(id).setData(campos) { error in
+//            if let error = error?.localizedDescription {
+//                print("Error al guardar en firestore \(error)")
+//            } else {
+//                print("Guardado en Firestore")
+//                completion(true)
+//            }
+//        }
+//    }
+    
+    func saveElectrodomestico(nombre: String, potencia: String, completion: @escaping(_ done: Bool) -> Void) {
+        let db = Firestore.firestore()
+        let id = UUID().uuidString
+
+        guard let idUser = Auth.auth().currentUser?.uid else {
+            print("Error: Usuario no autenticado")
+            completion(false)
+            return
+        }
+
+        // Crear el diccionario de datos
+        let campos: [String: Any] = [
+            "nombreElectrodomestico": nombre,
+            "potenciaElectrodomestico": potencia
+        ]
+        
+        // Guardar el electrodoméstico en la subcolección de electrodomésticos del usuario
+        db.collection("users").document(idUser).collection("electrodomesticos").document(id).setData(campos) { error in
+            if let error = error {
+                print("Error al guardar en Firestore: \(error.localizedDescription)")
+                completion(false)
+            } else {
+                print("Guardado en Firestore")
+                completion(true)
+            }
+        }
+    }
+
 }

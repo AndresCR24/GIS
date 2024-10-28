@@ -15,7 +15,11 @@ struct TabViewMain: View {
     
     var body: some View {
         // Verifica si el usuario está autenticado
-        if loginShow.show {
+        if loginShow.show == false{
+            Login()
+            
+        }
+        else {
             TabView {
                 ContentView().tabItem {
                     Label("Home", systemImage: "house.fill")
@@ -37,8 +41,6 @@ struct TabViewMain: View {
                     Label("Perfil", systemImage: "person")
                 }
             }
-        } else {
-            Login()
         }
     }
 }

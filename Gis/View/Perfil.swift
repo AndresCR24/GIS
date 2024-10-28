@@ -16,7 +16,7 @@ struct Perfil: View {
     var body: some View {
         VStack{
             Text("En Perfil")
-            
+                .foregroundStyle(.black)
             Button(action: {
                 try! Auth.auth().signOut()
                 UserDefaults.standard.removeObject(forKey: "sesion")
@@ -25,9 +25,12 @@ struct Perfil: View {
                 Text("Salir")
                     .font(.title)
                     .frame(width: 200)
-                    .foregroundStyle(.blue)
+                    .foregroundStyle(.white)
             }
-            
+            .buttonStyle(.borderedProminent)
+            .tint(.blue)
+            .frame(maxWidth: .infinity) // Ocupa todo el ancho disponible
+            .padding(.horizontal) 
         }
     }
 }
