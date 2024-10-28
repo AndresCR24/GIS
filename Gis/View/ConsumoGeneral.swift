@@ -14,39 +14,42 @@ struct ConsumoGeneral: View {
     }
     
     var body: some View {
-        VStack {
-            Text("Consumo de cada Electrodoméstico")
-                .font(.largeTitle)
-                .padding()
-
-            ScrollView {
-                VStack(spacing: 20) {
-                    ForEach(viewModel.datosElectrodomesticos.unique(), id: \.id) { electrodomestico in
-                        // Contenedor para cada electrodoméstico con un gráfico individual
-                        VStack(alignment: .leading) {
-                            Text(electrodomestico.nombre)
-                                .font(.title2)
-                                .padding(.bottom, 5)
-                            
-                            // Calcula el consumo para el gráfico
-                            let consumo = consumoElectrodomestico(potencia: electrodomestico.potencia, horasUso: electrodomestico.horas, minutosUso: electrodomestico.minutos)
-                            
-                            Chart {
-                                BarMark(
-                                    x: .value("Tiempo de Uso", "Diario"),
-                                    y: .value("Consumo (kWh)", consumo)
-                                )
-                                BarMark(
-                                    x: .value("Tiempo de Uso", "Mensual"),
-                                    y: .value("Consumo (kWh)", consumo * 30)
-                                )
+        ZStack{
+            Color.fondo.ignoresSafeArea()
+            VStack {
+                Text("Consumo de cada Electrodoméstico")
+                    .font(.largeTitle)
+                    .padding()
+                
+                ScrollView {
+                    VStack(spacing: 20) {
+                        ForEach(viewModel.datosElectrodomesticos.unique(), id: \.id) { electrodomestico in
+                            // Contenedor para cada electrodoméstico con un gráfico individual
+                            VStack(alignment: .leading) {
+                                Text(electrodomestico.nombre)
+                                    .font(.title2)
+                                    .padding(.bottom, 5)
+                                
+                                // Calcula el consumo para el gráfico
+                                let consumo = consumoElectrodomestico(potencia: electrodomestico.potencia, horasUso: electrodomestico.horas, minutosUso: electrodomestico.minutos)
+                                
+                                Chart {
+                                    BarMark(
+                                        x: .value("Tiempo de Uso", "Diario"),
+                                        y: .value("Consumo (kWh)", consumo)
+                                    )
+                                    BarMark(
+                                        x: .value("Tiempo de Uso", "Mensual"),
+                                        y: .value("Consumo (kWh)", consumo * 30)
+                                    )
+                                }
+                                .frame(height: 200)
+                                .padding()
                             }
-                            .frame(height: 200)
-                            .padding()
+                            .background(Color.gray.opacity(0.1))
+                            .cornerRadius(10)
+                            .padding(.horizontal)
                         }
-                        .background(Color.gray.opacity(0.1))
-                        .cornerRadius(10)
-                        .padding(.horizontal)
                     }
                 }
             }
