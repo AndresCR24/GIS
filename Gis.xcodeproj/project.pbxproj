@@ -55,11 +55,6 @@
 			path = GisUITests;
 			sourceTree = "<group>";
 		};
-		22D8D3D92CC14C1200C53BA1 /* Preview Content */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Preview Content";
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,7 +91,6 @@
 				2239FE392CC1582800185664 /* .gitignore */,
 				22D8D3DB2CC1531900C53BA1 /* GoogleService-Info.plist */,
 				22D8D3AA2CC14A6000C53BA1 /* Gis */,
-				22D8D3D92CC14C1200C53BA1 /* Preview Content */,
 				22D8D3BB2CC14A6200C53BA1 /* GisTests */,
 				22D8D3C52CC14A6200C53BA1 /* GisUITests */,
 				22D8D3A92CC14A6000C53BA1 /* Products */,
@@ -130,7 +124,6 @@
 			);
 			fileSystemSynchronizedGroups = (
 				22D8D3AA2CC14A6000C53BA1 /* Gis */,
-				22D8D3D92CC14C1200C53BA1 /* Preview Content */,
 			);
 			name = Gis;
 			packageProductDependencies = (
@@ -426,8 +419,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Gis/Preview Content\"";
+				DEVELOPMENT_TEAM = U2YGJ53TDZ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Necesario usar la camara para cargar documentos";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Necesario acceso a la libreria para seleccionar fotos";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -454,8 +450,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Gis/Preview Content\"";
+				DEVELOPMENT_TEAM = U2YGJ53TDZ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Necesario usar la camara para cargar documentos";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Necesario acceso a la libreria para seleccionar fotos";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

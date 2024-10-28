@@ -8,17 +8,34 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @EnvironmentObject var loginShow: FirebaseViewModel
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        return Group {
+            if loginShow.show {
+                Home()
+                    .ignoresSafeArea(.all)
+                //                    .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/)
+            }
+//            else {
+//                Login()
+//                //                    .preferredColorScheme(.light)
+//            }
         }
-        .padding()
+        .onAppear() {
+            if (UserDefaults.standard.object(forKey: "sesion")) != nil {
+                loginShow.show = true
+            }
+            
+        }
+        
     }
 }
-
+        
+//    }
+//}
 #Preview {
     ContentView()
+        .environmentObject(FirebaseViewModel())
 }

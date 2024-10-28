@@ -12,11 +12,12 @@ struct GisApp: App {
   @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
   var body: some Scene {
-      //let login = FirebaseViewModel()
+    let login = FirebaseViewModel()
     WindowGroup {
       NavigationView {
-        ContentView()
+        //ContentView()
         //ContentView().environmentObject(login)
+        TabViewMain().environmentObject(login)
       }
     }
   }
