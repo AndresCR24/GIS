@@ -12,6 +12,8 @@ import FirebaseAuth
 struct TabViewMain: View {
     @StateObject var login = FirebaseViewModel()
     @EnvironmentObject var loginShow: FirebaseViewModel
+    //@Binding var precio: Double
+    @State private var precio: String = "854"
     
     var body: some View {
         // Verifica si el usuario está autenticado
@@ -21,7 +23,7 @@ struct TabViewMain: View {
         }
         else {
             TabView {
-                ContentView().tabItem {
+                ContentView(precio: $precio).tabItem {
                     Label("Home", systemImage: "house.fill")
                 }
                 
@@ -29,7 +31,7 @@ struct TabViewMain: View {
                     Label("Electrodomésticos", systemImage: "plus")
                 }
                 
-                ConsumoGeneral().tabItem {
+                ConsumoGeneral(precio: $precio).tabItem {
                     Label("Consumo General", systemImage: "chart.bar.xaxis")
                 }
 

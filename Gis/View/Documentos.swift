@@ -81,7 +81,7 @@ struct Documentos: View {
                     }) {
                         Text("Cargar Documento")
                             .padding()
-                            .background(Color.blue)
+                            .background(Color.botones)
                             .foregroundColor(.white)
                             .cornerRadius(8)
                     }

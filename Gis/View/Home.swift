@@ -3,7 +3,7 @@ import Firebase
 import Charts // Asegúrate de importar la biblioteca
 
 struct Home: View {
-    @State private var precio = "854"
+    @Binding var precio:String 
     @State private var horasUso = 0
     @State private var minutosUso = 0
     @State private var selectedCurrency = "COP"
@@ -58,12 +58,12 @@ struct Home: View {
                         .frame(width: 80)
                         .clipShape(Circle())
                         .frame(maxWidth: .infinity, alignment: .leading)
-                    Text("GIS")
-                        .font(.title)
-                        .bold()
-                        .foregroundStyle(.titulos)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    Spacer()
+//                    Text("GIS")
+//                        .font(.title)
+//                        .bold()
+//                        .foregroundStyle(.titulos)
+//                        .frame(maxWidth: .infinity, alignment: .leading)
+//                    Spacer()
                 }
                 HStack {
                     
@@ -155,6 +155,3 @@ struct Home: View {
     }
 }
 
-#Preview {
-    Home()
-}
