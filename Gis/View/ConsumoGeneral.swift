@@ -31,6 +31,8 @@ struct ConsumoGeneral: View {
                                 Text(electrodomestico.nombre)
                                     .font(.title2)
                                     .padding(.bottom, 5)
+                                    .padding(.leading, 20)
+                                    .padding(.top, 10)
                                 
                                 // Calcula el consumo para el gráfico
                                 let consumo = consumoElectrodomestico(potencia: electrodomestico.potencia, horasUso: electrodomestico.horas, minutosUso: electrodomestico.minutos)
