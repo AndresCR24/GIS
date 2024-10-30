@@ -40,7 +40,7 @@ struct ConsumoGeneral: View {
                                     )
                                     BarMark(
                                         x: .value("Tiempo de Uso", "Mensual"),
-                                        y: .value("Consumo (kWh)", consumo * 30)
+                                        y: .value("Consumo (kWh)", consumo * 32)
                                     )
                                 }
                                 .frame(height: 200)

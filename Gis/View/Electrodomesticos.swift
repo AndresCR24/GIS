@@ -8,7 +8,7 @@ import FirebaseStorage
 struct Electrodomesticos: View {
     
     @State private var precio = ""
-    @State private var horasUso = 1 // Inicializa con 1 hora
+    @State private var horasUso = 0 // Inicializa con 1 hora
     @State private var minutosUso = 0 // Inicializa con 0 minutos
     @State private var selectedCurrency = "COP" // Moneda por defecto
     @State private var isPickerVisible = false // Controla la visibilidad del Picker
@@ -25,6 +25,11 @@ struct Electrodomesticos: View {
         NavigationStack {
             ZStack{
                 Color.fondo.ignoresSafeArea()
+                    .onTapGesture {
+                        //n
+                        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                        
+                    }
                 VStack{
                     Image("logo")
                         .resizable()
@@ -36,12 +41,13 @@ struct Electrodomesticos: View {
                         .keyboardType(.default)
                         .autocorrectionDisabled(true)
                         .textInputAutocapitalization(.never)
-                    
+                        .padding()
                     TextField("Potencia en W", text: $potenciaElectrodomestico)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .keyboardType(.decimalPad) // Cambiar a tipo decimal para potencia
                         .autocorrectionDisabled(true)
                         .textInputAutocapitalization(.never)
+                        .padding()
                     Text("Tiempo de uso")
                         .font(.title3)
                         .foregroundStyle(.olvidoContraseña)
@@ -50,9 +56,10 @@ struct Electrodomesticos: View {
                     HStack {
                         Text("Horas")
                             .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding()
                         Picker("Horas", selection: $horasUso) {
                             ForEach(horas, id: \.self) { hour in
-                                Text("\(hour)").foregroundColor(.black) // Cambia el color del texto a negro
+                                Text("\(hour)").foregroundStyle(.purple) // Cambia el color del texto a negro
                             }
                         }
                         .pickerStyle(MenuPickerStyle()) // Estilo del Picker
@@ -68,26 +75,28 @@ struct Electrodomesticos: View {
                         .pickerStyle(MenuPickerStyle()) // Estilo del Picker
                         .frame(width: 80) // Ajusta el ancho del picker según lo necesario
                     }
-                    
-                    Button(action: {
-                        guardar.saveElectrodomestico(nombre: nombreElectrodomestico, potencia: potenciaElectrodomestico, horas: horasUso, minutos: minutosUso) { done in
-                            if done {
-                                nombreElectrodomestico = ""
-                                potenciaElectrodomestico = ""
-                                horasUso = 0
-                                minutosUso = 0
+                    HStack{
+                        Button(action: {
+                            guardar.saveElectrodomestico(nombre: nombreElectrodomestico, potencia: potenciaElectrodomestico, horas: horasUso, minutos: minutosUso) { done in
+                                if done {
+                                    nombreElectrodomestico = ""
+                                    potenciaElectrodomestico = ""
+                                    horasUso = 0
+                                    minutosUso = 0
+                                }
                             }
+                        }) {
+                            Text("Guardar")
+                                .font(.title)
+                                .foregroundStyle(.white)
+                                //.padding(.vertical, 10)
                         }
-                    }) {
-                        Text("Guardar")
-                            .font(.title)
-                            .foregroundStyle(.white)
-                            .padding(.vertical, 10)
+                        .buttonStyle(.borderedProminent)
+                        .tint(.botones)
+                        
+                        .frame(maxWidth: .infinity)
+                        .navigationTitle("Electrodomesticos")
                     }
-                    .buttonStyle(.borderedProminent)
-                    .tint(.blue)
-                    .frame(maxWidth: .infinity)
-                    .navigationTitle("Electrodomesticos")
                     .toolbar {
                         HStack{
                             NavigationLink(destination: ListaElectrodomesticos()){

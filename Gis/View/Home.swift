@@ -45,8 +45,28 @@ struct Home: View {
     var body: some View {
         ZStack {
             Color.fondo.ignoresSafeArea()
+                .onTapGesture {
+                    //n
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                    
+                }
             VStack {
+                HStack{
+                    Image("logo")
+                        .resizable()
+                        .frame(height:80)
+                        .frame(width: 80)
+                        .clipShape(Circle())
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Text("GIS")
+                        .font(.title)
+                        .bold()
+                        .foregroundStyle(.titulos)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Spacer()
+                }
                 HStack {
+                    
                     TextField("Precio Kwh", text: $precio)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .keyboardType(.decimalPad)
@@ -95,19 +115,23 @@ struct Home: View {
                 let consumoTotal = calcularConsumoTotal()
                 Text("Consumo Total por dia: \(consumoTotal, specifier: "%.2f") kWh")
                     .font(.title3)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .padding()
                 Text("Consumo Total por mes: \(consumoTotal * 32, specifier: "%.2f") kWh")
                     .font(.title3)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .padding()
 
                 // Calcular y mostrar el costo total
                 let costoTotal = calcularCostoTotal(consumoTotal: consumoTotal)
                 Text("Costo Total por dia: \(costoTotal, specifier: "%.2f") \(selectedCurrency)")
                     .font(.title3)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .padding()
 
                 Text("Costo Total por mes: \(costoTotal * 32, specifier: "%.2f") \(selectedCurrency)")
                     .font(.title3)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .padding()
 
                 // Gráfico del consumo
@@ -116,7 +140,7 @@ struct Home: View {
                     ForEach(datosGrafico, id: \.0) { nombre, consumo in
                         BarMark(
                             x: .value("Electrodoméstico", nombre),
-                            y: .value("Consumo (kWh)", consumo)
+                            y: .value("Consumo (kWh)", consumo * 32)
                         )
                     }
                 }

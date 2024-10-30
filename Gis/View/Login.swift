@@ -18,6 +18,11 @@ struct Login: View {
         NavigationStack() {
             ZStack() {
                 Color.fondo.ignoresSafeArea()
+                    .onTapGesture {
+                        //n
+                        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                        
+                    }
                 VStack() {
                     Text("GIS")
                         .font(.largeTitle)
@@ -69,7 +74,7 @@ struct Login: View {
                     .tint(.blue)
                     .frame(maxWidth: .infinity) // Ocupa todo el ancho disponible
                     
-                    .frame(maxWidth: .infinity, maxHeight: .infinity) // Para asegurar que VStack ocupa todo el ancho y alto
+                    //.frame(maxWidth: .infinity, maxHeight: .infinity) // Para asegurar que VStack ocupa todo el ancho y alto
                     .padding(.horizontal) // Espacio opcional a los lados del botón
                     
                     
